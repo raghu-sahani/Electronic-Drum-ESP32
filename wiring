@@ -1,0 +1,164 @@
+ESP32 ELECTRONIC DRUM - CONNECTIONS
+===================================
+
+PROJECT COMPONENTS
+------------------
+1. ESP32 Development Board
+2. Piezo Sensor 1
+3. Piezo Sensor 2
+4. DFPlayer Mini
+5. Speaker
+6. Green LED
+7. Red LED
+8. 220-330 ohm resistors for LEDs
+9. 10k ohm resistors for piezo inputs
+10. 1M ohm resistors for piezo pull-down
+11. 1k ohm resistor for DFPlayer RX line
+
+
+ESP32 PIN ASSIGNMENT
+--------------------
+
+Piezo Sensor 1:
+Piezo positive  -> 10k resistor -> GPIO 34
+Piezo negative  -> GND
+GPIO 34         -> 1M resistor -> GND
+
+Function:
+Piezo 1 triggers Track 1 and Green LED.
+
+
+Piezo Sensor 2:
+Piezo positive  -> 10k resistor -> GPIO 35
+Piezo negative  -> GND
+GPIO 35         -> 1M resistor -> GND
+
+Function:
+Piezo 2 triggers Track 2 and Red LED.
+
+
+GREEN LED
+---------
+ESP32 GPIO 25 -> 220-330 ohm resistor -> Green LED positive (+)
+Green LED negative (-) -> GND
+
+Function:
+Flashes when Piezo Sensor 1 is hit.
+
+
+RED LED
+-------
+ESP32 GPIO 26 -> 220-330 ohm resistor -> Red LED positive (+)
+Red LED negative (-) -> GND
+
+Function:
+Flashes when Piezo Sensor 2 is hit.
+
+
+DFPLAYER MINI
+-------------
+DFPlayer VCC -> ESP32 5V / VIN
+DFPlayer GND -> ESP32 GND
+
+DFPlayer TX  -> ESP32 GPIO 16
+
+ESP32 GPIO 17
+      |
+      1k ohm resistor
+      |
+DFPlayer RX
+
+Important:
+ESP32 and DFPlayer must share the same GND.
+
+
+SPEAKER
+-------
+Speaker wire 1 -> DFPlayer SPK1
+Speaker wire 2 -> DFPlayer SPK2
+
+Use SPK1 and SPK2 for a small passive speaker.
+
+Do not connect the speaker directly to the ESP32.
+
+
+MICROSD CARD
+------------
+Audio files:
+
+Track 1:
+0001.mp3
+
+Track 2:
+0002.mp3
+
+Current project behavior:
+
+Piezo Sensor 1
+      |
+      v
+GPIO 34
+      |
+      +----> Green LED
+      |
+      +----> DFPlayer Track 1
+
+
+Piezo Sensor 2
+      |
+      v
+GPIO 35
+      |
+      +----> Red LED
+      |
+      +----> DFPlayer Track 2
+
+
+PIN SUMMARY
+-----------
+
+GPIO 34 -> Piezo Sensor 1
+GPIO 35 -> Piezo Sensor 2
+GPIO 25 -> Green LED
+GPIO 26 -> Red LED
+GPIO 16 -> DFPlayer TX
+GPIO 17 -> DFPlayer RX
+
+
+POWER CONNECTIONS
+-----------------
+ESP32 powered through USB.
+
+DFPlayer:
+VCC -> 5V
+GND -> GND
+
+Piezo Sensors:
+Negative terminal -> GND
+
+LEDs:
+Negative terminal -> GND
+
+
+IMPORTANT NOTES
+---------------
+
+1. Do not connect the piezo sensor directly to the ESP32 ADC without protection.
+
+2. Use a 10k ohm series resistor between each piezo sensor and ESP32 ADC pin.
+
+3. Use a 1M ohm resistor between each ADC input and GND.
+
+4. GPIO 34 and GPIO 35 are input-only pins on the ESP32, which is suitable for piezo sensors.
+
+5. Use a 220-330 ohm current-limiting resistor with each LED.
+
+6. Use approximately a 1k ohm resistor between GPIO 17 and DFPlayer RX.
+
+7. All components must share a common GND.
+
+8. DFPlayer Mini should preferably be powered from 5V.
+
+9. For a passive speaker, connect it between SPK1 and SPK2.
+
+10. If the DFPlayer resets when the speaker plays, add a 470uF-1000uF capacitor between DFPlayer VCC and GND.
